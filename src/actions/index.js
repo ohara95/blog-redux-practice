@@ -8,6 +8,8 @@ export const fetchPostAndUsers = () => {
     // console.log(getState().posts);
 
     // 配列でuserIdのみ出す
+    // _.map()値の配列を作成
+    // _.uniq()複製のない配列のバージョンを作成
     const userIds = _.uniq(_.map(getState().posts, "userId"));
     userIds.forEach((id) => dispatch(fetchUser(id)));
 

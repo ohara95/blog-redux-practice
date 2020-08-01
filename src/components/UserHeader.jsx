@@ -5,24 +5,20 @@ import { connect } from "react-redux";
 import { Header } from "semantic-ui-react";
 
 // 1人のユーザーだけ表示
-class UseHeader extends React.Component {
+const UserHeader = ({ user }) => {
   // ユーザーを重複で取得してしまうので削除
-  // componentDidMount() {
-  //   this.props.fetchUser(this.props.userId);
-  // }
+  // useEffect(() => {
+  //   fetchUser(userId);
+  // }, []);
 
-  render() {
-    const { user } = this.props;
-
-    if (!user) {
-      return null;
-    }
-    return <Header>{user.name}</Header>;
+  if (!user) {
+    return null;
   }
-}
+  return <Header>{user.name}</Header>;
+};
 
 const mapStateToProps = (state, ownProps) => {
   return { user: state.users.find((user) => user.id === ownProps.userId) };
 };
 
-export default connect(mapStateToProps)(UseHeader);
+export default connect(mapStateToProps)(UserHeader);

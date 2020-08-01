@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchPostAndUsers } from "../actions";
-import UserHeader from "./UseHeader";
+import UserHeader from "./UserHeader";
 
 import { Item, Icon } from "semantic-ui-react";
 
-class PostList extends React.Component {
-  componentDidMount() {
-    this.props.fetchPostAndUsers();
-  }
+const PostList = ({ fetchPostAndUsers, posts }) => {
+  useEffect(() => {
+    fetchPostAndUsers();
+  }, []);
 
-  renderList() {
-    return this.props.posts.map((post) => {
+  const renderList = () => {
+    return posts.map((post) => {
       return (
         <Item key={post.id}>
           <Icon size="large" name="user" />
@@ -25,46 +25,18 @@ class PostList extends React.Component {
         </Item>
       );
     });
-  }
+  };
 
-  render() {
-    return (
-      <Item.Group divided relaxed>
-        {this.renderList()}
-      </Item.Group>
-    );
-  }
-}
+  return (
+    <Item.Group divided relaxed>
+      {renderList()}
+    </Item.Group>
+  );
+};
+
 const mapStateToProps = (state) => {
   return { posts: state.posts };
 };
 
 // connectの第一引数に入れるものがない時はnullでOK
 export default connect(mapStateToProps, { fetchPostAndUsers })(PostList);
-
-// const PostList = ({ fetchPosts, posts }) => {
-//   useEffect(() => {
-//     fetchPosts();
-//   }, []);
-
-//   const renderList = () => {
-//     posts.map((post) => {
-//       return (
-//         <Item>
-//           <Icon large middle aligned name="user" />
-//           <Item.Content>
-//             <div className="description">
-//               <h2>{post.title}</h2>
-//               <p>{post.body}</p>
-//             </div>
-//           </Item.Content>
-//         </Item>
-//       );
-//     });
-//   };
-//   return <Item>{renderList()}</Item>;
-// };
-
-// const mapStateToProps = (state) => {
-//   return { posts: state.posts };
-// };
